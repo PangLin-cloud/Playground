@@ -1,6 +1,6 @@
 package com.panglin.controller;
 
-import com.panglin.pojo.TbUser;
+import com.panglin.pojo.PlayUser;
 import com.panglin.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +24,8 @@ public class LoginController {
     public String login(){return "login";}
 
     @RequestMapping("login.action")
-    public String loginAction(TbUser user, Model model){
-        List<TbUser> tbUsers = loginService.selectUserByPhoneAndPassword(user);
+    public String loginAction(PlayUser user, Model model){
+        List<PlayUser> tbUsers = loginService.selectUserByPhoneAndPassword(user);
         if (tbUsers.size()!=0){
             model.addAttribute("user",tbUsers.get(0));
             return "index";

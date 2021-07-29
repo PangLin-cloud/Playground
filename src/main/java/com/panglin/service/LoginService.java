@@ -1,12 +1,12 @@
 package com.panglin.service;
 
-import com.panglin.mapper.TbUserMapper;
-import com.panglin.pojo.TbUser;
-import com.panglin.pojo.TbUserExample;
+import com.panglin.mapper.PlayUserMapper;
+import com.panglin.pojo.PlayUser;
+import com.panglin.pojo.PlayUserExample;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.YamlMapFactoryBean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +18,12 @@ import java.util.List;
 @Service
 public class LoginService {
     @Autowired(required = false)
-    TbUserMapper userMapper;
+    PlayUserMapper userMapper;
 
-    public List<TbUser> selectUserByPhoneAndPassword(TbUser user){
-        List<TbUser> tbUsers=null;
-        TbUserExample example=new TbUserExample();
-        example.createCriteria().andPhoneEqualTo(user.getPhone()).andPasswordEqualTo(user.getPassword());
+    public List<PlayUser> selectUserByPhoneAndPassword(PlayUser user){
+        List<PlayUser> tbUsers=new ArrayList<>();
+        PlayUserExample example=new PlayUserExample();
+        example.createCriteria().andUserPhoneEqualTo(user.getUserPhone()).andUserPwdEqualTo(user.getUserPwd());
         tbUsers = userMapper.selectByExample(example);
         return tbUsers;
     }

@@ -1,6 +1,6 @@
 package com.panglin.service;
 
-import com.panglin.mapper.TbUserMapper;
+import com.panglin.mapper.PlayUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired(required = false)
-    TbUserMapper userMapper;
+    PlayUserMapper userMapper;
 
 
 }
