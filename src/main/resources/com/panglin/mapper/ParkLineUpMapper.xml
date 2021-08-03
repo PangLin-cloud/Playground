@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.panglin.mapper.ParkLineUpMapper" >
+  <resultMap id="BaseResultMap" type="com.panglin.pojo.ParkLineUp" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="park_id" property="parkId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="is_line_up" property="isLineUp" jdbcType="INTEGER" />
+    <result column="line_up_time" property="lineUpTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="LineUpCountGroupByParkIdMap" type="java.util.HashMap">
+    <result column="park_id" property="key" jdbcType="INTEGER"/>
+    <result column="count(*)" property="value" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, park_id, user_id, is_line_up, line_up_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.panglin.pojo.ParkLineUpExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from park_line_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from park_line_up
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from park_line_up
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.panglin.pojo.ParkLineUpExample" >
+    delete from park_line_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.panglin.pojo.ParkLineUp" >
+    insert into park_line_up (id, park_id, user_id, 
+      is_line_up, line_up_time)
+    values (#{id,jdbcType=INTEGER}, #{parkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{isLineUp,jdbcType=INTEGER}, #{lineUpTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.panglin.pojo.ParkLineUp" >
+    insert into park_line_up
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="parkId != null" >
+        park_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="isLineUp != null" >
+        is_line_up,
+      </if>
+      <if test="lineUpTime != null" >
+        line_up_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parkId != null" >
+        #{parkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isLineUp != null" >
+        #{isLineUp,jdbcType=INTEGER},
+      </if>
+      <if test="lineUpTime != null" >
+        #{lineUpTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.panglin.pojo.ParkLineUpExample" resultType="java.lang.Integer" >
+    select count(*) from park_line_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectLineUpCountGroupByParkId" resultMap="LineUpCountGroupByParkIdMap">
+    select park_id,count(*) from park_line_up group by park_id;
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update park_line_up
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.parkId != null" >
+        park_id = #{record.parkId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isLineUp != null" >
+        is_line_up = #{record.isLineUp,jdbcType=INTEGER},
+      </if>
+      <if test="record.lineUpTime != null" >
+        line_up_time = #{record.lineUpTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update park_line_up
+    set id = #{record.id,jdbcType=INTEGER},
+      park_id = #{record.parkId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      is_line_up = #{record.isLineUp,jdbcType=INTEGER},
+      line_up_time = #{record.lineUpTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.panglin.pojo.ParkLineUp" >
+    update park_line_up
+    <set >
+      <if test="parkId != null" >
+        park_id = #{parkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isLineUp != null" >
+        is_line_up = #{isLineUp,jdbcType=INTEGER},
+      </if>
+      <if test="lineUpTime != null" >
+        line_up_time = #{lineUpTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.panglin.pojo.ParkLineUp" >
+    update park_line_up
+    set park_id = #{parkId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      is_line_up = #{isLineUp,jdbcType=INTEGER},
+      line_up_time = #{lineUpTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

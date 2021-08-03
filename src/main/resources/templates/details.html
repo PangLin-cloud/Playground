@@ -30,7 +30,7 @@
 			<!-- WRAPPER -->
 			<div id="wrapper">
 				<!-- NAVBAR -->
-				<nav class="navbar navbar-default navbar-fixed-top">
+				<nav class="navbar navbar-default navbar-fixed-top" th:replace="index::#nav">
 					<div class="brand">
 						<a href="index.html"><img src="assets/img/logo-dark.png" alt="Klorofil Logo"
 								class="img-responsive logo"></a>
@@ -106,7 +106,7 @@
 				</nav>
 				<!-- END NAVBAR -->
 				<!-- LEFT SIDEBAR -->
-				<div id="sidebar-nav" class="sidebar">
+				<div id="sidebar-nav" class="sidebar" th:replace="index::#sidebar-nav">
 					<div class="sidebar-scroll">
 						<nav>
 							<ul class="nav">
@@ -155,14 +155,13 @@
 							<div class="col-md-12">
 								<div class="row"
 									style="box-shadow: 2px 20px  40px grey;margin: 10px 20px 0px 0px;border-radius: 30px;padding-top:10px;background:rgba(0, 200, 100,0.5); font-weight: bold;">
-									<h2 class="text-center">过山车</h2>
+									<h2 class="text-center" th:text="${parkTable.parkName}"></h2>
 									<div class="col-xs-5">
-										<input type="image" style="border-radius: 20px;" src="assets/img/过山车.jpg"
+										<input type="image" style="border-radius: 20px;" th:src="'/'+${parkTable.parkFile}"
 											width="135px" height="135px" />
 									</div>
 									<div class="col-xs-7">
-										<h5>项目类型：<span>惊险型</span></h5>
-										<h5>项目热度：<span style="color: red;">55</span></h5>
+										<h5>项目热度：<span style="color: red;" th:text="${parkTable.parkHot}"></span></h5>
 										<h5 class="text-info">排队人数：<span>20</span></h5>
 										<h5 class="text-primary">预计等待时间：<span>20</span>分钟</h5>
 										<h5>惊险程度：
