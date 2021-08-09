@@ -6,9 +6,6 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 		<!-- VENDOR CSS -->
 		<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -24,16 +21,6 @@
 		<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
 		<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-		<style>
-			#container {
-				overflow: hidden;
-				width: 375px;
-				height: 200px;
-				margin: 0;
-				font-family: "微软雅黑";
-			}
-		</style>
-		<script src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=L32HWFHPyrv6lNE4fl7f0d0Glqc9s9A5"></script>
 	</head>
 
 	<body>
@@ -161,50 +148,42 @@
 					<!-- MAIN CONTENT -->
 					<div class="col-md-12">
 						<br>
-						<h4 class="text text-info">娱乐项目详情</h4>
+						<h4 class="text text-info">开始排队</h4>
 					</div>
 					<div class="main-content">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="row"
-									style="box-shadow: 2px 20px  40px grey;margin: 10px 20px 0px 0px;border-radius: 30px;padding-top:10px;background:rgba(0, 200, 100,0.5); font-weight: bold;">
-									<input id="pids" type="hidden" th:value="${parkTable.id}">
-									<input id="uids" type="hidden" th:value="${session.user.id}">
-									<button type="button" id="collection" class="btn btn-primary center-block" th:if="${collection} eq false">收藏</button>
-									<button type="button" id="no_collection" class="btn btn-primary center-block" th:if="${collection} eq true">取消收藏</button>
-									<h2 class="text-center" th:text="${parkTable.parkName}"></h2>
-									<div class="col-xs-5">
-										<input type="image" style="border-radius: 20px;" th:src="'/'+${parkTable.parkFile}"
-											width="135px" height="135px" />
+								<!-- BASIC TABLE -->
+								<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">正在确认排队：<span class="text-primary" th:text="${parktable.parkName}"></span></h3>
+										<input type="hidden" id="pid" th:value="${parktable.id}">
 									</div>
-									<div class="col-xs-7">
-										<h5>项目热度：<span style="color: red;" th:text="${parkTable.parkHot}"></span></h5>
-										<h5 class="text-info">排队人数：<span class="col-xs-offset-1 text-info" th:text="${parkLineMap.get(parkTable.id)}" th:if="${parkLineMap.get(parkTable.id)} ne 0"></span>
-											<span class="col-xs-offset-1 text-info" th:if="${parkLineMap.get(parkTable.id)} eq 0">0</span>人</h5>
-										<h5 class="text-primary">预计等待时间：<span class="col-xs-offset-1 text-info" th:text="${lineUpTime.get(parkTable.id)}" th:if="${parkLineMap.get(parkTable.id)} ne 0"></span>
-											<span class="col-xs-offset-1 text-info" th:if="${parkLineMap.get(parkTable.id)} eq 0">0</span>分钟分钟</h5>
-										<h5>惊险程度：
-											<span style="color: red;">
-												<i class="bi bi-star-fill" th:each="i:${#numbers.sequence(1,parkTable.thrillDegree/1)}"></i>
-											</span>
-										</h5>
-									</div>
-									<div class="col-xs-12">
-										<br>
-										<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目介绍:
-											<span th:text="${parkTable.title}"></span>
-										</h5>
-										<br>
-										<h5 class="text-danger">
-											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;温馨提示：<span th:text="${parkTable.titleDanger}"></span>
-										</h5>
+									<div class="panel-body">
+										<table class="table">
+											<thead>
+											<tr>
+												<th><input type="checkbox" id="check_all"></th>
+												<th>编号</th>
+												<th>游客姓名</th>
+												<th>联系方式</th>
+											</tr>
+											</thead>
+											<tbody>
+											<!--/*@thymesVar id="user" type="com.panglin.pojo.PlayUser"*/-->
+											<tr th:each="user:${playUsers}">
+												<td><input type="checkbox" class="check_item" th:id="'userId'+${user.id}"></td>
+												<td th:text="${user.id}"> </td>
+												<td th:text="${user.userName}"></td>
+												<td th:text="${user.userPhone}">Steve</td>
+											</tr>
+											</tbody>
+										</table>
+										<button type="button" id="line_up_parkTable" class="btn btn-primary">确认排队</button>
 									</div>
 								</div>
+								<!-- END BASIC TABLE -->
 							</div>
-							<br><br>
-							<h3 class="text-center">所在位置</h3>
-							<div id="container"></div>
-
 						</div>
 					</div>
 
@@ -228,48 +207,172 @@
 		<script src="assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 		<script src="assets/vendor/chartist/js/chartist.min.js"></script>
 		<script src="assets/scripts/klorofil-common.js"></script>
+		<script>
+			$(function() {
+				var data, options;
 
+				// headline charts
+				data = {
+					labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+					series: [
+						[23, 29, 24, 40, 25, 24, 35],
+						[14, 25, 18, 34, 29, 38, 44],
+					]
+				};
+
+				options = {
+					height: 300,
+					showArea: true,
+					showLine: false,
+					showPoint: false,
+					fullWidth: true,
+					axisX: {
+						showGrid: false
+					},
+					lineSmooth: false,
+				};
+
+				new Chartist.Line('#headline-chart', data, options);
+
+
+				// visits trend charts
+				data = {
+					labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+					series: [{
+						name: 'series-real',
+						data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+					}, {
+						name: 'series-projection',
+						data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+					}]
+				};
+
+				options = {
+					fullWidth: true,
+					lineSmooth: false,
+					height: "270px",
+					low: 0,
+					high: 'auto',
+					series: {
+						'series-projection': {
+							showArea: true,
+							showPoint: false,
+							showLine: false
+						},
+					},
+					axisX: {
+						showGrid: false,
+
+					},
+					axisY: {
+						showGrid: false,
+						onlyInteger: true,
+						offset: 0,
+					},
+					chartPadding: {
+						left: 20,
+						right: 20
+					}
+				};
+
+				new Chartist.Line('#visits-trends-chart', data, options);
+
+
+				// visits chart
+				data = {
+					labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+					series: [
+						[6384, 6342, 5437, 2764, 3958, 5068, 7654]
+					]
+				};
+
+				options = {
+					height: 300,
+					axisX: {
+						showGrid: false
+					},
+				};
+
+				new Chartist.Bar('#visits-chart', data, options);
+
+
+				// real-time pie chart
+				var sysLoad = $('#system-load').easyPieChart({
+					size: 130,
+					barColor: function(percent) {
+						return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 -
+							percent / 100)) + ", 0)";
+					},
+					trackColor: 'rgba(245, 245, 245, 0.8)',
+					scaleColor: false,
+					lineWidth: 5,
+					lineCap: "square",
+					animate: 800
+				});
+
+				var updateInterval = 3000; // in milliseconds
+
+				setInterval(function() {
+					var randomVal;
+					randomVal = getRandomInt(0, 100);
+
+					sysLoad.data('easyPieChart').update(randomVal);
+					sysLoad.find('.percent').text(randomVal);
+				}, updateInterval);
+
+				function getRandomInt(min, max) {
+					return Math.floor(Math.random() * (max - min + 1)) + min;
+				}
+
+			});
+		</script>
 	</body>
 <script type="text/javascript">
-	$("#collection").click(function (){
-		$.ajax({
-			url: '/insertCollectionByUidAndPid?uid=' + $("#uids").val()+"&pid="+$("#pids").val(),
-			type: 'post',
-			'success': function (result) {
-				alert(result.msg);
-				location.href="/details?uid="+ $("#uids").val()+"&pid="+$("#pids").val();
-			}
-		})
-	})
 
-	$("#no_collection").click(function (){
-		$.ajax({
-			url: '/deleteCollectionByUidAndPid?uid=' + $("#uids").val()+"&pid="+$("#pids").val(),
-			type: 'post',
-			'success': function (result) {
-				alert(result.msg);
-				location.href="/details?uid="+ $("#uids").val()+"&pid="+$("#pids").val();
-			}
-		})
-	})
+	//完成全选/全不选功能
+	$("#check_all").click(function(){
+		//attr获取checked是undefined;
+		//我们这些dom原生的属性；attr获取自定义属性的值；
+		//prop修改和读取dom原生属性的值
+		$(".check_item").prop("checked",$(this).prop("checked"));
+	});
+
+	//check_item
+	$(document).on("click",".check_item",function(){
+		//判断当前选择中的元素是否5个
+		var flag = $(".check_item:checked").length==$(".check_item").length;
+		$("#check_all").prop("checked",flag);
+	});
+
+	$("#line_up_parkTable").click(function(){
+		//
+		var empNames = "";
+		var del_idstr = "";
+		$.each($(".check_item:checked"),function(){
+			//this
+			empNames += $(this).parents("tr").find("td:eq(2)").text()+",";
+			//组装员工id字符串
+			del_idstr += $(this).parents("tr").find("td:eq(1)").text()+"-";
+		});
+		//去除empNames多余的,
+		empNames = empNames.substring(0, empNames.length-1);
+		//去除删除的id多余的-
+		del_idstr = del_idstr.substring(0, del_idstr.length-1);
+		if(confirm("确认排队【"+empNames+"】吗？")){
+			//发送ajax请求删除
+			$.ajax({
+				url:"/lineUpInsert?ids="+del_idstr+"&pid="+$("#pid").val(),
+				type:"DELETE",
+				success:function(result){
+					alert(result.msg);
+					if (result.code==100){
+						location.href="/index.action";
+					}
+					//回到当前页面
+
+				}
+			});
+		}
+	});
 </script>
 </html>
-<script>
-	function ditu(){
-		$.ajax({
-			url: '/selectParkTableInXY?pid=' + $("#pids").val(),
-			type: 'post',
-			'success': function (result) {
-				var x=result.extend.zuobiao.x;
-				var y=result.extend.zuobiao.y;
-				var map = new BMapGL.Map('container'); // 创建Map实例
-				map.centerAndZoom(new BMapGL.Point(x,y), 19); // 初始化地图,设置中心点坐标和地图级别
-				map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-				map.disableDragging();//禁用拖拽
-			}
-		})
-
-	}
-	window.onload=ditu;
-</script>
-

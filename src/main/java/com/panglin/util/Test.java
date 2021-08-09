@@ -8,12 +8,6 @@ package com.panglin.util;
  */
 public class Test {
     public static void main(String[] args) {
-        double a=4.5;
-        for (int i = 0; i < a/1; i++) {
-            System.out.print("*");
-        }
-        if (a%1!=0){
-            System.out.print("a");
-        }
+        System.out.println(4.5%1);
     }
 }

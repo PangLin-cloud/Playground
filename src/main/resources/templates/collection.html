@@ -25,7 +25,7 @@
 	<!-- WRAPPER -->
 	<div id="wrapper">
 		<!-- NAVBAR -->
-		<nav class="navbar navbar-default navbar-fixed-top" id="nav" th:fragment="nav">
+		<nav class="navbar navbar-default navbar-fixed-top" id="nav" th:replace="index::#nav">
 			<div class="brand">
 				<a href="index.html"><img src="assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
 			</div>
@@ -41,15 +41,16 @@
 		</nav>
 		<!-- END NAVBAR -->
 		<!-- LEFT SIDEBAR -->
-		<div id="sidebar-nav" class="sidebar" th:fragment="header">
+		<div id="sidebar-nav" class="sidebar" th:replace="index::#sidebar-nav">
 			<div class="sidebar-scroll">
 				<nav>
 					<ul class="nav">
-						<li><a href="/index.action" class="active"><i class="lnr lnr-home"></i> <span>推荐</span></a></li>
+						<li><a href="index.html" class=""><i class="lnr lnr-home"></i> <span>推荐</span></a></li>
 						<li><a href="elements.html" class=""><i class="lnr lnr-code"></i> <span>当前排队</span></a></li>
-						<li><a href="/allindex.action" class=""><i class="lnr lnr-chart-bars"></i> <span>全部游乐项目</span></a></li>
-						<li><a th:href="'/collection?uid='+${session.user.id}" class=""><i class="lnr lnr-dice"></i> <span>我的收藏</span></a></li>
-						<li><a href="/logOut" class=""><i class="lnr lnr-dice"></i> <span>退出登录</span></a></li>
+						<li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>全部游乐项目</span></a></li>
+						<li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>游乐场地址</span></a></li>
+						<li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>个人主页</span></a></li>
+						<li><a href="tables.html" class="active"><i class="lnr lnr-dice"></i> <span>退出登录</span></a></li>
 					</ul>
 				</nav>
 			</div>
@@ -90,7 +91,7 @@
 										  </div>
 									  </div>
 									  <div class="col-xs-12 text-center" style="padding-bottom: 10px;">
-									  	<button type="button" class="btn btn-success" onclick="lineUp(this)" id="lineUp" th:attr="userId=${session.user.id},parkId=${park.id}" style="border-radius: 5px;">开始排队</button>
+										  <button type="button" class="btn btn-success" onclick="lineUp(this)" id="lineUp" th:attr="userId=${session.user.id},parkId=${park.id}" style="border-radius: 5px;">开始排队</button>
 									  </div>
 									</div>
 								</div>

@@ -1,9 +1,12 @@
 package com.panglin.mapper;
 
+import com.panglin.pojo.LineUp;
 import com.panglin.pojo.ParkLineUp;
 import com.panglin.pojo.ParkLineUpExample;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
+import javax.sound.sampled.Line;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +25,7 @@ public interface ParkLineUpMapper {
 
     ParkLineUp selectByPrimaryKey(Integer id);
 
-    Map<Integer,Integer> selectLineUpCountGroupByParkId();
+    List<LineUp> selectLineUpCountGroupByParkId();
 
     int updateByExampleSelective(@Param("record") ParkLineUp record, @Param("example") ParkLineUpExample example);
 

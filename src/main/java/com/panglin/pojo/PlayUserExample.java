@@ -635,52 +635,52 @@ public class PlayUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsUserEqualTo(Boolean value) {
+        public Criteria andIsUserEqualTo(Integer value) {
             addCriterion("is_user =", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserNotEqualTo(Boolean value) {
+        public Criteria andIsUserNotEqualTo(Integer value) {
             addCriterion("is_user <>", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserGreaterThan(Boolean value) {
+        public Criteria andIsUserGreaterThan(Integer value) {
             addCriterion("is_user >", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andIsUserGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_user >=", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserLessThan(Boolean value) {
+        public Criteria andIsUserLessThan(Integer value) {
             addCriterion("is_user <", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserLessThanOrEqualTo(Boolean value) {
+        public Criteria andIsUserLessThanOrEqualTo(Integer value) {
             addCriterion("is_user <=", value, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserIn(List<Boolean> values) {
+        public Criteria andIsUserIn(List<Integer> values) {
             addCriterion("is_user in", values, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserNotIn(List<Boolean> values) {
+        public Criteria andIsUserNotIn(List<Integer> values) {
             addCriterion("is_user not in", values, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsUserBetween(Integer value1, Integer value2) {
             addCriterion("is_user between", value1, value2, "isUser");
             return (Criteria) this;
         }
 
-        public Criteria andIsUserNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsUserNotBetween(Integer value1, Integer value2) {
             addCriterion("is_user not between", value1, value2, "isUser");
             return (Criteria) this;
         }

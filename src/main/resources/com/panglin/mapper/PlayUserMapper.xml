@@ -10,7 +10,7 @@
     <result column="id_card" property="idCard" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_timeStr" property="createTimestr" jdbcType="VARCHAR" />
-    <result column="is_user" property="isUser" jdbcType="BIT" />
+    <result column="is_user" property="isUser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -111,7 +111,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
       #{userPhone,jdbcType=BIGINT}, #{userSex,jdbcType=VARCHAR}, #{idCard,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createTimestr,jdbcType=VARCHAR}, #{isUser,jdbcType=BIT}
+      #{createTime,jdbcType=TIMESTAMP}, #{createTimestr,jdbcType=VARCHAR}, #{isUser,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.panglin.pojo.PlayUser" >
@@ -171,7 +171,7 @@
         #{createTimestr,jdbcType=VARCHAR},
       </if>
       <if test="isUser != null" >
-        #{isUser,jdbcType=BIT},
+        #{isUser,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -209,7 +209,7 @@
         create_timeStr = #{record.createTimestr,jdbcType=VARCHAR},
       </if>
       <if test="record.isUser != null" >
-        is_user = #{record.isUser,jdbcType=BIT},
+        is_user = #{record.isUser,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -226,7 +226,7 @@
       id_card = #{record.idCard,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_timeStr = #{record.createTimestr,jdbcType=VARCHAR},
-      is_user = #{record.isUser,jdbcType=BIT}
+      is_user = #{record.isUser,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -256,7 +256,7 @@
         create_timeStr = #{createTimestr,jdbcType=VARCHAR},
       </if>
       <if test="isUser != null" >
-        is_user = #{isUser,jdbcType=BIT},
+        is_user = #{isUser,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -270,7 +270,7 @@
       id_card = #{idCard,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_timeStr = #{createTimestr,jdbcType=VARCHAR},
-      is_user = #{isUser,jdbcType=BIT}
+      is_user = #{isUser,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

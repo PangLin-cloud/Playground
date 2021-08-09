@@ -7,37 +7,23 @@ package com.panglin.pojo;
  * @date 2021/8/3 17:19
  */
 public class LineUp {
-    /** 
-     * @description: 排队人数 
-     * @param: * @param null 
-     * @return:  
-     * @author Pang-Lin
-     * @date: 2021/8/3 17:20
-     */ 
-    private int num;
+    private int pid;
+    private int count;
 
-    public int getNum() {
-        return num;
+
+    public int getPid() {
+        return pid;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 
-    public int getTime() {
-        return time;
+    public int getCount() {
+        return count;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setCount(int count) {
+        this.count = count;
     }
-
-    /**
-     * @description: 预计等待时间
-     * @param: * @param null 
-     * @return:  
-     * @author Pang-Lin
-     * @date: 2021/8/3 17:20
-     */ 
-    private int time;
 }

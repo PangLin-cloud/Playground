@@ -19,7 +19,7 @@ public class PlayUser {
 
     private String createTimestr;
 
-    private Boolean isUser;
+    private Integer isUser;
 
     public Integer getId() {
         return id;
@@ -85,11 +85,11 @@ public class PlayUser {
         this.createTimestr = createTimestr == null ? null : createTimestr.trim();
     }
 
-    public Boolean getIsUser() {
+    public Integer getIsUser() {
         return isUser;
     }
 
-    public void setIsUser(Boolean isUser) {
+    public void setIsUser(Integer isUser) {
         this.isUser = isUser;
     }
 }
